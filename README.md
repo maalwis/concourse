@@ -1,4 +1,4 @@
-# Concourse CI Lab
+# Concourse automation
 
 This project is a small Concourse CI lab for learning **authentication, teams, pipelines, jobs, and CLI automation with Python**.
 
