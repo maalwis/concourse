@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: 8.2.3
+description: Concourse is a simple and scalable CI system.
+home: https://concourse-ci.org/
+icon: https://avatars1.githubusercontent.com/u/7809479
+keywords:
+- ci
+- concourse
+- concourse.ci
+maintainers:
+- email: team@concourse-ci.org
+  name: concourse-team
+name: concourse
+sources:
+- https://github.com/concourse/concourse-chart
+- https://github.com/concourse/concourse
+type: application
+version: 20.2.4

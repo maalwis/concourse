@@ -1,0 +1,22 @@
+{
+    "testing-team": [
+        {
+            "repository": "backend-repository",
+            "application_name": "backend",
+            "org": "backend-org"
+        },
+        {
+            "repository": "frontend-repository",
+            "application_name": "frontend",
+            "org": "frontend-org"
+        }
+    ],
+    "payment-team": [
+        {
+            "repository": "payment-repository",
+            "application_name": "payment",
+            "org": "payment-org"
+        }
+    ]
+}
+

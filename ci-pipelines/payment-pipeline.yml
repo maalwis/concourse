@@ -1,0 +1,175 @@
+resources:
+  - name: every-minute
+    type: time
+    source:
+      interval: 5m
+
+groups:
+  - name: development
+    jobs:
+      - build-payment
+      - test-payment
+      - deploy-payment-dev
+      - deploy-payment-qa
+
+  - name: production
+    jobs:
+      - security-scan-payment
+      - deploy-payment-staging
+      - deploy-payment-production
+
+jobs:
+  - name: build-payment
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - BUILD"
+                echo "Running build-payment"
+                date
+                echo "================================"
+
+  - name: test-payment
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: test
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - TEST"
+                echo "Running test-payment"
+                date
+                echo "================================"
+
+  - name: security-scan-payment
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: security-scan
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - SECURITY SCAN"
+                echo "Running security-scan-payment"
+                date
+                echo "================================"
+
+  - name: deploy-payment-dev
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - DEV"
+                echo "Running deploy-payment-dev"
+                date
+                echo "================================"
+
+  - name: deploy-payment-qa
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - QA"
+                echo "Running deploy-payment-qa"
+                date
+                echo "================================"
+
+  - name: deploy-payment-staging
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - STAGING"
+                echo "Running deploy-payment-staging"
+                date
+                echo "================================"
+
+  - name: deploy-payment-production
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "PAYMENT - PRODUCTION"
+                echo "Running deploy-payment-production"
+                date
+                echo "================================"
+

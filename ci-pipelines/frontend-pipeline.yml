@@ -1,0 +1,175 @@
+resources:
+  - name: every-minute
+    type: time
+    source:
+      interval: 5m
+
+groups:
+  - name: development
+    jobs:
+      - build-frontend
+      - test-frontend
+      - deploy-frontend-dev
+      - deploy-frontend-qa
+
+  - name: production
+    jobs:
+      - lint-frontend
+      - deploy-frontend-staging
+      - deploy-frontend-production
+
+jobs:
+  - name: build-frontend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - BUILD"
+                echo "Running build-frontend"
+                date
+                echo "================================"
+
+  - name: test-frontend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: test
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - TEST"
+                echo "Running test-frontend"
+                date
+                echo "================================"
+
+  - name: lint-frontend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: lint
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - LINT"
+                echo "Running lint-frontend"
+                date
+                echo "================================"
+
+  - name: deploy-frontend-dev
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - DEV"
+                echo "Running deploy-frontend-dev"
+                date
+                echo "================================"
+
+  - name: deploy-frontend-qa
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - QA"
+                echo "Running deploy-frontend-qa"
+                date
+                echo "================================"
+
+  - name: deploy-frontend-staging
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - STAGING"
+                echo "Running deploy-frontend-staging"
+                date
+                echo "================================"
+
+  - name: deploy-frontend-production
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "FRONTEND - PRODUCTION"
+                echo "Running deploy-frontend-production"
+                date
+                echo "================================"
+

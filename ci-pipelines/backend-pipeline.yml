@@ -1,0 +1,175 @@
+resources:
+  - name: every-minute
+    type: time
+    source:
+      interval: 5m
+
+groups:
+  - name: development
+    jobs:
+      - build-backend
+      - test-backend
+      - deploy-backend-dev
+      - deploy-backend-qa
+
+  - name: production
+    jobs:
+      - security-scan-backend
+      - deploy-backend-staging
+      - deploy-backend-production
+
+jobs:
+  - name: build-backend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - BUILD"
+                echo "Running build-backend"
+                date
+                echo "================================"
+
+  - name: test-backend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: test
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - TEST"
+                echo "Running test-backend"
+                date
+                echo "================================"
+
+  - name: security-scan-backend
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: security-scan
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - SECURITY SCAN"
+                echo "Running security-scan-backend"
+                date
+                echo "================================"
+
+  - name: deploy-backend-dev
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - DEV"
+                echo "Running deploy-backend-dev"
+                date
+                echo "================================"
+
+  - name: deploy-backend-qa
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - QA"
+                echo "Running deploy-backend-qa"
+                date
+                echo "================================"
+
+  - name: deploy-backend-staging
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - STAGING"
+                echo "Running deploy-backend-staging"
+                date
+                echo "================================"
+
+  - name: deploy-backend-production
+    plan:
+      - get: every-minute
+        trigger: true
+      - task: deploy
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: alpine
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                echo "================================"
+                echo "BACKEND - PRODUCTION"
+                echo "Running deploy-backend-production"
+                date
+                echo "================================"
+

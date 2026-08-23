@@ -1,0 +1,21 @@
+{{- if .Values.worker.enabled -}}
+{{- if semverCompare ">=1.21-0" .Capabilities.KubeVersion.Version -}}
+apiVersion: policy/v1
+{{- else -}}
+apiVersion: policy/v1beta1
+{{- end }}
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "concourse.worker.fullname" . }}
+  labels:
+    app: {{ template "concourse.worker.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  minAvailable: {{ .Values.worker.minAvailable }}
+  selector:
+    matchLabels:
+      app: {{ template "concourse.worker.fullname" . }}
+      release: {{ .Release.Name }}
+{{- end }}
