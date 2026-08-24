@@ -131,10 +131,8 @@ def build_output(
 
 @app.command()
 def investigate(
-    data_file: Path = typer.Option(
-        Path("data.json"),
-        "--data-file",
-        "-f",
+    data_file: Path = typer.Argument(
+        ...,
         help="Path to the team/application JSON file."
     ),
     target: str = typer.Option(
