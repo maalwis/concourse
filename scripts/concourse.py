@@ -140,6 +140,12 @@ def investigate(
         "--target",
         "-t",
         help="Concourse fly target."
+    ),
+    output_file: Path = typer.Option(
+        Path("output.json"),
+        "--output",
+        "-o",
+        help="Path to the output JSON file."
     )
 ):
     """
@@ -148,20 +154,13 @@ def investigate(
 
     data = read_team_state_json(data_file)
 
+    results = []
+
     for team, applications in data.items():
 
         for application in applications:
 
-            typer.echo("---")
-
             application_name = application["application_name"]
-            repository = application["repository"]
-            org = application["org"]
-
-            typer.echo(
-                f"Investigating team '{team}' "
-                f"and application '{application_name}'"
-            )
 
             deploy_jobs = get_deploy_jobs(
                 target,
@@ -170,11 +169,6 @@ def investigate(
             )
 
             if not deploy_jobs:
-                typer.echo(
-                    f"No deploy-* jobs found for "
-                    f"team '{team}' and "
-                    f"pipeline '{application_name}'"
-                )
                 continue
 
             latest_deploy_builds = get_latest_builds_for_jobs(
@@ -197,12 +191,18 @@ def investigate(
                     latest_build=latest_build
                 )
 
-                typer.echo(
-                    json.dumps(
-                        output,
-                        indent=4
-                    )
-                )
+                results.append(output)
+
+    with output_file.open("w") as f:
+        json.dump(
+            results,
+            f,
+            indent=4
+        )
+
+    typer.echo(
+        f"Results written to {output_file}"
+    )
 
 
 
